@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Submission report — {{ analysis.project_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body>
+    <main class="report-document">
+      <a class="back-link" href="/">← Back to dashboard</a>
+      <div class="report-brand">COMBINATOR AI <span>·</span> SUBMISSION REVIEW</div>
+      <section class="report-header">
+        <div class="report-title-row">
+          <div>
+            <p class="eyebrow">PROJECT SUBMISSION REPORT</p>
+            <h1>{{ analysis.project_name or "Software project" }}</h1>
+            <p class="report-time">Generated {{ analysis.created_at }}</p>
+          </div>
+          <span class="readiness-pill {% if analysis.summary.submission_readiness == 'Ready to submit' %}ready{% elif analysis.summary.errors %}blocked{% else %}pending{% endif %}">
+            {{ analysis.summary.submission_readiness }}
+          </span>
+        </div>
+        <div class="score-summary">
+          <div class="score-circle">{{ analysis.summary.quality_score }}</div>
+          <div class="score-copy">
+            <strong>Quality score / 100</strong>
+            <p>{{ analysis.summary.note }}</p>
+          </div>
+        </div>
+        <p class="summary-stats">
+          {{ analysis.summary.checks }} checks · {{ analysis.summary.errors }} errors ·
+          {{ analysis.summary.warnings }} warnings · Test status: {{ analysis.summary.test_status }}
+        </p>
+      </section>
+
+      <section class="report-section">
+        <h2>Project intelligence</h2>
+        {% if analysis.project_metadata %}
+          <p><strong>Languages:</strong> {{ analysis.project_metadata.languages|join(', ') or 'None detected' }}</p>
+          <p><strong>Frameworks:</strong> {{ analysis.project_metadata.frameworks|join(', ') or 'None detected' }}</p>
+          <p><strong>Entry points:</strong> {{ analysis.project_metadata.entry_points|join(', ') or 'None detected' }}</p>
+        {% else %}
+          <p>Project metadata was not available for this saved analysis.</p>
+        {% endif %}
+      </section>
+
+      <section class="report-section">
+        <h2>Agent execution timeline</h2>
+        {% if analysis.agent_runs %}
+          <ul>
+          {% for run in analysis.agent_runs %}
+            <li><strong>{{ run.name }}</strong>: {{ run.status }} - {{ run.responsibility }}{% if run.error %} ({{ run.error }}){% endif %}</li>
+          {% endfor %}
+          </ul>
+        {% else %}
+          <p>Agent history was not recorded for this saved analysis.</p>
+        {% endif %}
+      </section>
+
+      <section class="report-section">
+        <h2>Automated review findings</h2>
+        {% if analysis.findings %}
+          <table class="report-table">
+            <thead><tr><th>Severity</th><th>Category</th><th>Finding</th><th>Evidence</th></tr></thead>
+            <tbody>
+              {% for finding in analysis.findings %}
+                <tr>
+                  <td>{{ finding.severity }}</td>
+                  <td>{{ finding.category }}</td>
+                  <td><strong>{{ finding.title }}</strong><br>{{ finding.message }}</td>
+                  <td>{{ finding.path or "—" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>No findings were reported by the configured checks.</p>
+        {% endif %}
+      </section>
+
+      <section class="report-section">
+        <h2>Requirements traceability</h2>
+        {% if analysis.traceability %}
+          <table class="report-table">
+            <thead><tr><th>Dependency</th><th>Constraint</th><th>Declared in</th><th>Imports observed</th><th>Status</th></tr></thead>
+            <tbody>
+              {% for item in analysis.traceability %}
+                <tr>
+                  <td>{{ item.dependency }}</td>
+                  <td>{{ item.constraint or "—" }}</td>
+                  <td>{{ item.declared_in }}</td>
+                  <td>{{ item.evidence|join(", ") or "—" }}</td>
+                  <td>{{ item.status }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>No dependency declarations were available to map.</p>
+        {% endif %}
+      </section>
+
+      {% if analysis.test_result %}
+        <section class="report-section">
+          <h2>Isolated pytest result: {{ analysis.test_result.status }}</h2>
+          {% if analysis.test_result.message %}<p>{{ analysis.test_result.message }}</p>{% endif %}
+          {% if analysis.test_result.output %}<pre class="test-output">{{ analysis.test_result.output }}</pre>{% endif %}
+          <p class="test-note">Tests execute in a restricted Docker container. Static checks do not execute project code.</p>
+        </section>
+      {% else %}
+        <section class="report-section">
+          <h2>Automated tests: not run</h2>
+          <p>Tests were not executed as part of static analysis. Run them from the dashboard using the isolated Docker runner.</p>
+        </section>
+      {% endif %}
+      <p class="test-note">Generated locally by Combinator AI. Scores are heuristic and do not guarantee submission acceptance.</p>
+    </main>
+  </body>
+</html>

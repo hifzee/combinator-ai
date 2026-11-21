@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Combinator AI analyzes software projects for readiness, quality, security, tests, documentation, and submission risk.">
+    <title>Combinator AI - Submission Readiness Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body class="landing-body">
+    <header class="landing-header">
+      <a class="landing-brand" href="/" aria-label="Combinator AI home">
+        <span class="brand-mark">C</span>
+        <span>combinator<span class="brand-light">.ai</span></span>
+      </a>
+      <nav class="landing-nav" aria-label="Primary navigation">
+        <a href="#workflow">Workflow</a>
+        <a href="#capabilities">Capabilities</a>
+        <a class="landing-nav-action" href="/workspace">Open workspace</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="landing-hero" aria-labelledby="landing-title">
+        <div class="landing-copy">
+          <p class="eyebrow">BEST-OF-ALL SUBMISSION AGENT</p>
+          <h1 id="landing-title">Turn an unfinished project into a defensible submission.</h1>
+          <p>Combinator AI coordinates local code, requirements, testing, dependency, security, documentation, architecture, and build checks into one evidence-based readiness report.</p>
+          <div class="landing-actions">
+            <a class="button button-primary" href="/workspace">Analyze a project</a>
+            <a class="button landing-secondary-button" href="/workspace#upload-panel">View demo workflow</a>
+          </div>
+          <div class="landing-trust"><span>Local static analysis</span><span>No paid AI API</span><span>Docker-isolated tests</span></div>
+        </div>
+        <div class="landing-preview" aria-label="Combinator AI readiness preview">
+          <div class="preview-top"><span>ACME INVENTORY</span><span class="preview-status">Review complete</span></div>
+          <div class="preview-score"><strong>78</strong><span>Readiness score</span></div>
+          <div class="preview-grid">
+            <div><span>Code quality</span><strong>72</strong></div>
+            <div><span>Testing</span><strong>Pending</strong></div>
+            <div><span>Security</span><strong>2 warnings</strong></div>
+            <div><span>Documentation</span><strong>84</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="landing-section" id="workflow" aria-labelledby="workflow-title">
+        <p class="eyebrow">COORDINATED REVIEW</p>
+        <h2 id="workflow-title">One project. Twelve accountable stages.</h2>
+        <div class="workflow-grid">
+          <article><span>01</span><h3>Understand</h3><p>Detect the stack, entry points, configuration, and project structure.</p></article>
+          <article><span>02</span><h3>Analyze</h3><p>Review code, requirements, dependencies, tests, docs, security, and build setup.</p></article>
+          <article><span>03</span><h3>Decide</h3><p>Prioritize evidence, blockers, and the highest-impact improvements.</p></article>
+        </div>
+      </section>
+
+      <section class="landing-section landing-capabilities" id="capabilities" aria-labelledby="capabilities-title">
+        <div>
+          <p class="eyebrow">EVIDENCE OVER HYPE</p>
+          <h2 id="capabilities-title">A clearer path to submission quality.</h2>
+        </div>
+        <div class="capability-list">
+          <span>Requirements traceability</span><span>Isolated pytest execution</span><span>HTML and JSON reports</span><span>Dependency health</span><span>Source-level findings</span><span>Persistent local history</span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="landing-footer"><span>Combinator AI</span><span>Submission readiness without an external AI API</span></footer>
+  </body>
+</html>
